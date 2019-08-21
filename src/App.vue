@@ -16,6 +16,9 @@ export default {
 </template>
 
 <style>
+body {
+  overflow-x: hidden;
+}
 #app {
   text-align: center;
 }

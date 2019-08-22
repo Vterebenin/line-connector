@@ -12,8 +12,8 @@ export default {
 <template>
   <div id="app">
     <svg id="test" class="drawer" height="100%" width="100%">
-      <EditablePathLine msg="sadfsadf" someotherthing="true" />
-      <EditablePathLine msg="sadfsadf" someotherthing="true" />
+      <EditablePathLine position msg="sadfsadf" someotherthing="true" />
+      <EditablePathLine position msg="sadfsadf" someotherthing="true" />
     </svg>
   </div>
 </template>

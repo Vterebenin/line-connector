@@ -48,7 +48,7 @@
           class="drawer__circle drawer__circle-1"
           v-bind:cx="from.x"
           v-bind:cy="from.y"
-          r="40"
+          r="20"
           v-on:dragstart="dragstartFalse"
           v-on:mousedown="mouseDownOnCircle($event)"
           stroke="black"
@@ -60,7 +60,7 @@
           class="drawer__circle drawer__circle-2"
           v-bind:cx="to.x"
           v-bind:cy="to.y"
-          r="80"
+          r="20"
           v-on:dragstart="dragstartFalse"
           v-on:mousedown="mouseDownOnCircle($event)"
           stroke="black"
@@ -79,18 +79,18 @@ export default {
     return {
       from: {
         x: 150,
-        y: 150
+        y: 400
       },
       to: {
-        x: 250,
-        y: 250
+        x: 450,
+        y: 400
       },
       bezierFrom: {
         x: 120,
         y: 140
       },
       bezierTo: {
-        x: 180,
+        x: 450,
         y: 140
       }
     };

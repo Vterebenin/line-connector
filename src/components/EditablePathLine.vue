@@ -1,26 +1,26 @@
 <template>
   <g>
     <path
-      v-bind:d="'M ' + from.x + ' ' + from.y + ' C ' + bezierFrom.x + ' ' + bezierFrom.y + ', ' + bezierTo.x + ' ' + bezierTo.y + ', ' + to.x + ' ' + to.y"
+      :d="'M ' + from.x + ' ' + from.y + ' C ' + bezierFrom.x + ' ' + bezierFrom.y + ', ' + bezierTo.x + ' ' + bezierTo.y + ', ' + to.x + ' ' + to.y"
       stroke="black"
       fill="transparent"
     />
     <!-- безье хелпер 1 -->
     <path
-      v-bind:d="'M ' + from.x + ' ' + from.y + ' ' + bezierFrom.x + ' ' + bezierFrom.y"
+      :d="'M ' + from.x + ' ' + from.y + ' ' + bezierFrom.x + ' ' + bezierFrom.y"
       stroke="black"
       fill="transparent"
     />
     <!-- безье хелпер 2 -->
     <path
-      v-bind:d="'M ' + to.x + ' ' + to.y + ' ' + bezierTo.x + ' ' + bezierTo.y"
+      :d="'M ' + to.x + ' ' + to.y + ' ' + bezierTo.x + ' ' + bezierTo.y"
       stroke="black"
       fill="transparent"
     />
     <!-- точка для хелпера 1 -->
     <circle
-      v-bind:cx="bezierFrom.x"
-      v-bind:cy="bezierFrom.y"
+      :cx="bezierFrom.x"
+      :cy="bezierFrom.y"
       v-on:dragstart="dragstartFalse"
       v-on:mousedown="dragElement('bezierFrom')"
       r="5"
@@ -30,8 +30,8 @@
     />
     <!-- точка для хелпера2 -->
     <circle
-      v-bind:cx="bezierTo.x"
-      v-bind:cy="bezierTo.y"
+      :cx="bezierTo.x"
+      :cy="bezierTo.y"
       v-on:dragstart="dragstartFalse"
       v-on:mousedown="dragElement('bezierTo')"
       r="5"
@@ -42,11 +42,11 @@
     <!-- маленький кружок -->
     <circle
       class="drawer__circle drawer__circle-1"
-      v-bind:cx="from.x"
-      v-bind:cy="from.y"
+      :cx="from.x"
+      :cy="from.y"
       r="20"
       v-on:dragstart="dragstartFalse"
-      v-on:mousedown="dragElement('pathFrom')"
+      v-on:mousedown="dragElement('from')"
       stroke="black"
       stroke-width="3"
       fill="red"
@@ -54,11 +54,11 @@
     <!-- большой кружок -->
     <circle
       class="drawer__circle drawer__circle-2"
-      v-bind:cx="to.x"
-      v-bind:cy="to.y"
+      :cx="to.x"
+      :cy="to.y"
       r="20"
       v-on:dragstart="dragstartFalse"
-      v-on:mousedown="dragElement('pathTo')"
+      v-on:mousedown="dragElement('to')"
       stroke="black"
       stroke-width="3"
       fill="red"
@@ -69,69 +69,31 @@
 <script>
 export default {
   name: "EditablePathLine",
+  props: {
+    position: Object,
+  },
   data: function() {
     return {
       from: {
-        x: 150,
-        y: 400
+        x: this.position.x1,
+        y: this.position.y1
       },
       to: {
-        x: 450,
-        y: 400
+        x: this.position.x2,
+        y: this.position.y2
       },
       bezierFrom: {
-        x: 120,
-        y: 140
+        x: this.position.x1,
+        y: this.position.y2
       },
       bezierTo: {
-        x: 450,
-        y: 140
+        x: this.position.x2,
+        y: this.position.y1
       }
     };
   },
-
-  props: {
-    msg: String,
-    someotherthing: String
-  },
-  computed: {
-    pathFrom: {
-      get: function() {
-        return this.from;
-      },
-      set: function(newVal) {
-        return (this.from = newVal);
-      }
-    },
-    pathTo: {
-      get: function() {
-        return this.to;
-      },
-      set: function(newVal) {
-        return (this.to = newVal);
-      }
-    },
-    bezierFromC: {
-      get: function() {
-        return this.bezierFrom;
-      },
-      set: function(newVal) {
-        return (this.bezierFrom = newVal);
-      }
-    },
-    bezierToC: {
-      get: function() {
-        return this.bezierTo;
-      },
-      set: function(newVal) {
-        return (this.bezierTo = newVal);
-      }
-    }
-    // from: function(params) {}
-  },
-  created: function() {
+  mounted: function() {
     // axios.get('symbols.json').then(response => this.symbols = response.data);
-    this.time = Date.now;
   },
   methods: {
     dragElement(changer) {
@@ -180,9 +142,4 @@ export default {
 </script>
 
 <style scoped>
-.drawer {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
 </style>

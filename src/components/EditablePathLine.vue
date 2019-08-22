@@ -63,15 +63,8 @@
       stroke-width="3"
       fill="red"
     />
-    <marker
-      id="UpArrowPrecise"
-      markerWidth="20"
-      markerHeight="10"
-      refX="-15"
-      refY="5"
-      orient="auto"
-    >
-      <path d="M20,-30 L20,-10 L0,-15 Z" />
+    <marker id="UpArrowPrecise" markerWidth="40" markerHeight="10" refX="0" refY="7" orient="auto">
+      <path d="M30,0 L30,10 L20,5 Z" />
     </marker>
 
     <marker
@@ -143,12 +136,9 @@ export default {
       // moves the ball at (pageX, pageY) coordinates
       // taking initial shifts into account
       function moveAt(pageX, pageY, reducedThis, changer) {
-        ball.setAttribute("cx", pageX - shiftX);
-        ball.setAttribute("cy", pageY - shiftY);
-
         reducedThis[changer] = {
-          x: parseFloat(ball.getAttribute("cx")),
-          y: parseFloat(ball.getAttribute("cy"))
+          x: parseFloat(pageX - shiftX),
+          y: parseFloat(pageY - shiftY)
         };
       }
 

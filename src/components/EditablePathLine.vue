@@ -1,22 +1,21 @@
 <template>
   <g>
     <path
-      :d="'M ' + from.x + ' ' + from.y + ' C ' + bezierFrom.x + ' ' + bezierFrom.y + ', ' + bezierTo.x + ' ' + bezierTo.y + ', ' + to.x + ' ' + to.y"
+      :d="`M ${from.x} ${from.y} C ${bezierFrom.x} ${bezierFrom.y}, ${bezierTo.x} ${bezierTo.y}, ${to.x}  ${to.y}`"
       stroke="black"
       fill="transparent"
+      marker-start="url(#UpArrowPrecise)"
+      marker-end="url(#DownArrowPrecise)"
     />
+
     <!-- безье хелпер 1 -->
     <path
-      :d="'M ' + from.x + ' ' + from.y + ' ' + bezierFrom.x + ' ' + bezierFrom.y"
+      :d="`M ${from.x} ${from.y} ${bezierFrom.x} ${bezierFrom.y}`"
       stroke="black"
       fill="transparent"
     />
     <!-- безье хелпер 2 -->
-    <path
-      :d="'M ' + to.x + ' ' + to.y + ' ' + bezierTo.x + ' ' + bezierTo.y"
-      stroke="black"
-      fill="transparent"
-    />
+    <path :d="`M ${to.x} ${to.y} ${bezierTo.x} ${bezierTo.y}`" stroke="black" fill="transparent" />
     <!-- точка для хелпера 1 -->
     <circle
       :cx="bezierFrom.x"
@@ -39,6 +38,7 @@
       stroke-width="3"
       fill="red"
     />
+
     <!-- маленький кружок -->
     <circle
       class="drawer__circle drawer__circle-1"
@@ -63,6 +63,27 @@
       stroke-width="3"
       fill="red"
     />
+    <marker
+      id="UpArrowPrecise"
+      markerWidth="20"
+      markerHeight="10"
+      refX="-15"
+      refY="5"
+      orient="auto"
+    >
+      <path d="M20,-30 L20,-10 L0,-15 Z" />
+    </marker>
+
+    <marker
+      id="DownArrowPrecise"
+      markerWidth="20"
+      markerHeight="10"
+      refX="10"
+      refY="5"
+      orient="auto"
+    >
+      <path d="M0,0 L0,10 L20,5 Z" />
+    </marker>
   </g>
 </template>
 
@@ -70,7 +91,7 @@
 export default {
   name: "EditablePathLine",
   props: {
-    position: Object,
+    position: Object
   },
   data: function() {
     return {
@@ -91,6 +112,16 @@ export default {
         y: this.position.y1
       }
     };
+  },
+  computed: {
+    arrowPos: {
+      get: function() {
+        return {
+          x: this.bezierFrom.x - this.from.x + 10,
+          y: this.bezierFrom.x - this.from.y + 10
+        };
+      }
+    }
   },
   mounted: function() {
     // axios.get('symbols.json').then(response => this.symbols = response.data);
@@ -116,8 +147,8 @@ export default {
         ball.setAttribute("cy", pageY - shiftY);
 
         reducedThis[changer] = {
-          x: ball.getAttribute("cx"),
-          y: ball.getAttribute("cy")
+          x: parseFloat(ball.getAttribute("cx")),
+          y: parseFloat(ball.getAttribute("cy"))
         };
       }
 

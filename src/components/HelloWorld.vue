@@ -207,6 +207,7 @@ export default {
       function moveAt(pageX, pageY, reducedThis, coordi) {
         ball.setAttribute("cx", pageX - shiftX);
         ball.setAttribute("cy", pageY - shiftY);
+        
         console.log(reducedThis[coordi]);
         
         reducedThis[coordi] = {

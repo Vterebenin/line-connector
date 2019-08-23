@@ -12,8 +12,8 @@ export default {
 <template>
   <div id="app">
     <svg id="test" class="drawer" height="100%" width="100%">
-      <EditablePathLine :position="{x1: 50, y1: 150, x2: 200, y2: 350 }" msg="sadfsadf" someotherthing="true" />
-      <EditablePathLine :position="{x1: 600, y1: 150, x2: 800, y2: 350 }" msg="sadfsadf" someotherthing="true" />
+      <EditablePathLine :pathId="1" :position="{x1: 50, y1: 150, x2: 200, y2: 350 }" msg="sadfsadf" someotherthing="true" />
+      <EditablePathLine :pathId="2" :position="{x1: 600, y1: 150, x2: 800, y2: 350 }" msg="sadfsadf" someotherthing="true" />
     </svg>
   </div>
 </template>

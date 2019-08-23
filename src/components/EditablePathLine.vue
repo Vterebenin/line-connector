@@ -1,21 +1,20 @@
 <template>
   <g>
     <path
-      :d="`M ${from.x} ${from.y} C ${bezierFrom.x} ${bezierFrom.y}, ${bezierTo.x} ${bezierTo.y}, ${to.x}  ${to.y}`"
+      :d="`M ${to.x} ${to.y}  C ${bezierFrom.x} ${bezierFrom.y}, ${bezierTo.x} ${bezierTo.y}, ${from.x}  ${from.y} `"
       stroke="black"
+      :id="`path${pathId}`"
       fill="transparent"
-      marker-start="url(#UpArrowPrecise)"
-      marker-end="url(#DownArrowPrecise)"
     />
 
     <!-- безье хелпер 1 -->
     <path
-      :d="`M ${from.x} ${from.y} ${bezierFrom.x} ${bezierFrom.y}`"
+      :d="`M ${to.x} ${to.y} ${bezierFrom.x} ${bezierFrom.y}`"
       stroke="black"
       fill="transparent"
     />
     <!-- безье хелпер 2 -->
-    <path :d="`M ${to.x} ${to.y} ${bezierTo.x} ${bezierTo.y}`" stroke="black" fill="transparent" />
+    <path :d="`M ${from.x} ${from.y} ${bezierTo.x} ${bezierTo.y}`" stroke="black" fill="transparent" />
     <!-- точка для хелпера 1 -->
     <circle
       :cx="bezierFrom.x"
@@ -63,20 +62,14 @@
       stroke-width="3"
       fill="red"
     />
-    <marker id="UpArrowPrecise" markerWidth="40" markerHeight="10" refX="0" refY="7" orient="auto">
-      <path d="M30,0 L30,10 L20,5 Z" />
-    </marker>
-
-    <marker
-      id="DownArrowPrecise"
-      markerWidth="20"
-      markerHeight="10"
-      refX="10"
-      refY="5"
-      orient="auto"
-    >
-      <path d="M0,0 L0,10 L20,5 Z" />
-    </marker>
+ 
+    <text class="b-arrow">
+      <textPath :xlink:href="`#path${pathId}`"  startOffset="20px" text-anchor="right" >🢀</textPath>
+    </text>
+    <text class="b-text">
+      <textPath :xlink:href="`#path${pathId}`" startOffset="50%" text-anchor="middle">1test text</textPath>
+    </text>
+    
   </g>
 </template>
 
@@ -84,7 +77,8 @@
 export default {
   name: "EditablePathLine",
   props: {
-    position: Object
+    position: Object,
+    pathId: Number
   },
   data: function() {
     return {
@@ -163,4 +157,22 @@ export default {
 </script>
 
 <style scoped>
+text {
+  font-size: 14px;
+  fill: #000;
+  
+  /* transform: rotate(10deg); */
+  dominant-baseline: central;
+   -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+text.b-text {
+  font-size: 20px;
+  dominant-baseline: ideographic;
+}
 </style>

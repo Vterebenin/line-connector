@@ -14,13 +14,17 @@
       fill="transparent"
     />
     <!-- безье хелпер 2 -->
-    <path :d="`M ${from.x} ${from.y} ${bezierTo.x} ${bezierTo.y}`" stroke="black" fill="transparent" />
+    <path
+      :d="`M ${from.x} ${from.y} ${bezierTo.x} ${bezierTo.y}`"
+      stroke="black"
+      fill="transparent"
+    />
     <!-- точка для хелпера 1 -->
     <circle
       :cx="bezierFrom.x"
       :cy="bezierFrom.y"
-      v-on:dragstart="dragstartFalse"
-      v-on:mousedown="dragElement('bezierFrom')"
+      @dragstart="dragstartFalse"
+      @mousedown="dragElement('bezierFrom')"
       r="5"
       stroke="black"
       stroke-width="3"
@@ -30,8 +34,8 @@
     <circle
       :cx="bezierTo.x"
       :cy="bezierTo.y"
-      v-on:dragstart="dragstartFalse"
-      v-on:mousedown="dragElement('bezierTo')"
+      @dragstart="dragstartFalse"
+      @mousedown="dragElement('bezierTo')"
       r="5"
       stroke="black"
       stroke-width="3"
@@ -44,8 +48,8 @@
       :cx="from.x"
       :cy="from.y"
       r="20"
-      v-on:dragstart="dragstartFalse"
-      v-on:mousedown="dragElement('from')"
+      @dragstart="dragstartFalse"
+      @mousedown="dragElement('from')"
       stroke="black"
       stroke-width="3"
       fill="red"
@@ -56,20 +60,19 @@
       :cx="to.x"
       :cy="to.y"
       r="20"
-      v-on:dragstart="dragstartFalse"
-      v-on:mousedown="dragElement('to')"
+      @dragstart="dragstartFalse"
+      @mousedown="dragElement('to')"
       stroke="black"
       stroke-width="3"
       fill="red"
     />
- 
+
     <text class="b-arrow">
-      <textPath :xlink:href="`#path${pathId}`"  startOffset="20px" text-anchor="right" >🢀</textPath>
+      <textPath :xlink:href="`#path${pathId}`" startOffset="20px" text-anchor="right">🢀</textPath>
     </text>
     <text class="b-text">
       <textPath :xlink:href="`#path${pathId}`" startOffset="50%" text-anchor="middle">1test text</textPath>
     </text>
-    
   </g>
 </template>
 
@@ -151,6 +154,13 @@ export default {
     },
     dragstartFalse() {
       return false;
+    },
+    drawLine() {
+      let ball = event.target;
+      console.log(ball);
+      ev.preventDefault();
+      alert("success!");
+      return false;
     }
   }
 };
@@ -160,15 +170,15 @@ export default {
 text {
   font-size: 14px;
   fill: #000;
-  
+
   /* transform: rotate(10deg); */
   dominant-baseline: central;
-   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
 text.b-text {

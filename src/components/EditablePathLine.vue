@@ -11,6 +11,7 @@
       >
         <path
           d="M 0,5 L 10,10 L 10,0 Z"
+          style="pointer-events: none;"
           @mousedown="dragElement('bezierToStart', true, '', 'to')"
           fill="blue"
         />
@@ -18,6 +19,7 @@
       <marker id="someArrowEnd" markerWidth="20" markerHeight="20" refX="10" refY="5" orient="auto">
         <path
           d="M 0,0 L 0,10 L 10,5 Z"
+          style="pointer-events: none;"
           @mousedown="dragElement('bezierFromStart', true, '', 'from')"
           fill="blue"
         />
@@ -94,7 +96,7 @@
       stroke="transparent"
       stroke-width="3"
       class="grabable"
-      fill="transparent"
+      fill="rgba(0,0,0, 0.2)"
     />
     <path
       :d="`M ${bezierFromStart.x} ${bezierFromStart.y}  C ${bezierFrom.x} ${bezierFrom.y}, ${bezierTo.x} ${bezierTo.y}, ${bezierToStart.x}  ${bezierToStart.y} `"
@@ -104,9 +106,13 @@
       :id="`path${pathId}`"
       fill="transparent"
     />
-    <text class="b-text">
-      <textPath :xlink:href="`#path${pathId}`" startOffset="50%" text-anchor="middle">1test text</textPath>
-    </text>
+    <!-- center circle 
+    <circle :cx="center.x" :cy="center.y" r="30" stroke="black" stroke-width="3" fill="red" />
+    -->
+
+    <foreignObject v-if="text" :x="center.x - 40" :y="center.y-20" width="80" height="40">
+      <div xmlns="http://www.w3.org/1999/xhtml" class="centered_text">{{text}}</div>
+    </foreignObject>
 
     <!-- точки для хелпера2 -->
 
@@ -129,7 +135,7 @@
       r="10"
       stroke="transparent"
       stroke-width="3"
-      fill="transparent"
+      fill="rgba(0,0,0, 0.2)"
       class="grabable"
     />
   </g>
@@ -140,6 +146,7 @@ export default {
   name: "EditablePathLine",
   props: {
     position: Object,
+    text: String,
     pathId: Number,
     radius: Number
   },
@@ -169,6 +176,10 @@ export default {
       bezierToStart: {
         x: this.position.x2,
         y: this.position.y2 - this.radius
+      },
+      center: {
+        x: 0,
+        y: 0
       }
     };
   },
@@ -184,6 +195,13 @@ export default {
   },
   mounted: function() {
     // axios.get('symbols.json').then(response => this.symbols = response.data);
+    this.center = this.BezierCubicXY(
+      this.from,
+      this.bezierTo,
+      this.bezierFrom,
+      this.to,
+      0.5
+    );
   },
   methods: {
     onDraggingArrow(evt, circleX, circleY) {
@@ -232,6 +250,13 @@ export default {
             x: parseFloat(pageX - shiftX),
             y: parseFloat(pageY - shiftY)
           };
+          reducedThis.center = reducedThis.BezierCubicXY(
+            reducedThis.from,
+            reducedThis.bezierTo,
+            reducedThis.bezierFrom,
+            reducedThis.to,
+            0.5
+          );
           if (relObj) {
             reducedThis[relObj] = reducedThis.onDraggingArrow(
               event,
@@ -254,11 +279,33 @@ export default {
         document.removeEventListener("mousemove", onMouseMove);
         ball.onmouseup = null;
         ball.style.cursor = "";
-
       };
     },
     dragstartFalse() {
       return false;
+    },
+    // Points are objects with x and y properties
+    // p0: start point
+    // p1: handle of start point
+    // p2: handle of end point
+    // p3: end point
+    // t: progression along curve 0..1
+    // returns an object containing x and y values for the given t
+    BezierCubicXY(p0, p1, p2, p3, t) {
+      var ret = {};
+      var coords = ["x", "y"];
+      var i, k;
+
+      for (i in coords) {
+        k = coords[i];
+        ret[k] =
+          Math.pow(1 - t, 3) * p0[k] +
+          3 * Math.pow(1 - t, 2) * t * p1[k] +
+          3 * (1 - t) * Math.pow(t, 2) * p2[k] +
+          Math.pow(t, 3) * p3[k];
+      }
+
+      return ret;
     }
   }
 };
@@ -286,10 +333,32 @@ text.b-text {
 .grabable {
   cursor: grab;
 }
-
+.centered_text {
+  color: #222;
+  text-align: center;
+  font: 14px serif;
+  height: 100%;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #222;
+  border-radius: 10px;
+  box-sizing: border-box;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
 </style>
 <style>
 .cursor-grabbing {
   cursor: grabbing !important;
+}
+body {
+  background: yellow;
 }
 </style>

@@ -3,9 +3,13 @@ import EditablePathLine from "./components/EditablePathLine.vue";
 export default {
   name: "app",
   components: {
-    EditablePathLine
+    EditablePathLine,
+  },
+  methods: {
+    
   }
 };
+
 </script>
 
 <template>
@@ -28,7 +32,6 @@ export default {
         someotherthing="true"
       />
     </svg>
-    
   </div>
 </template>
 

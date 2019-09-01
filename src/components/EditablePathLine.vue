@@ -197,8 +197,8 @@ export default {
     // axios.get('symbols.json').then(response => this.symbols = response.data);
     this.center = this.BezierCubicXY(
       this.from,
-      this.bezierTo,
       this.bezierFrom,
+      this.bezierTo,
       this.to,
       0.5
     );
@@ -207,9 +207,9 @@ export default {
     onDraggingArrow(evt, circleX, circleY) {
       // Get the mouse position relative to the centre of the circle (circleX,circleY)
       // let ball = document.getElementById("circle1");
-      let dx = evt.clientX - circleX;
-      let dy = evt.clientY - circleY;
-
+      // console.log(evt.pageX);
+      let dx = evt.pageX - circleX;
+      let dy = evt.pageY - circleY;
       // Calculate distance from centre of circle to mouse (Pythagoras' theorem)
       let distance = Math.sqrt(dx * dx + dy * dy);
       // Test against radius
@@ -218,6 +218,7 @@ export default {
         dx = (dx * this.r) / distance;
         dy = (dy * this.r) / distance;
       }
+
       return {
         x: dx + circleX,
         y: dy + circleY
@@ -252,8 +253,8 @@ export default {
           };
           reducedThis.center = reducedThis.BezierCubicXY(
             reducedThis.from,
-            reducedThis.bezierTo,
             reducedThis.bezierFrom,
+            reducedThis.bezierTo,
             reducedThis.to,
             0.5
           );
